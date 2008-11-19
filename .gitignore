@@ -32,3 +32,4 @@ vendor/rails
 coverage/*
 var
 TAGS
+public
