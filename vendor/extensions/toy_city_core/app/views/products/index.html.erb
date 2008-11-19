@@ -1,0 +1,28 @@
+<ul id="feature_tabs">
+	<li class="tab"><a href="#toys_tab"><img src="/images/tabs/toys_tab_on.png" alt="Toys" title="Toys"/></a></li>
+	<li class="tab"><a href="#nursery_world_tab"><img src="/images/tabs/nursery_world_tab_off.png" alt="Nursery World" title="Nursery World"/></a></li>  
+	<li class="tab"><a href="#gamezone_tab"><img src="/images/tabs/gamezone_tab_off.png" alt="GameZone" title="GameZone"/></a></li>  
+</ul>  
+<div id="toys_tab" class="tab-content">
+	<%= render :partial => "shared/featured_product", :locals => {:featured_product => @featured_toy, :style => 'toys'}%>
+	<%= render :partial => "shared/similar_products", :locals => {:similar_products => @similar_toys}%>
+	<%= render :partial => "shared/scroller", :locals => {:featured_products => @featured_toys, :style => 'toys'}%>
+	<%= render :partial => "shared/more_taxons", :locals => {:taxons => @toys_taxons, :style => 'toys'}%>
+</div><!-- end id=toys_tab -->
+
+<div id="nursery_world_tab" class="tab-content">
+	<%= render :partial => "shared/featured_product", :locals => {:featured_product => @featured_nursery, :style => 'nursery'}%>
+	<%= render :partial => "shared/similar_products", :locals => {:similar_products => @similar_nursery}%>
+	<%= render :partial => "shared/scroller", :locals => {:featured_products => @featured_nurseries, :style => 'nursery'}%>
+	<%= render :partial => "shared/more_taxons", :locals => {:taxons => @nursery_taxons, :style => 'nursery'}%>	
+</div>
+<div id="gamezone_tab" class="tab-content">
+	<%= render :partial => "shared/featured_product", :locals => {:featured_product => @featured_game, :style => 'games'}%>
+	<%= render :partial => "shared/similar_products", :locals => {:similar_products => @similar_games}%>
+	<%= render :partial => "shared/scroller", :locals => {:featured_products => @featured_games, :style => 'games'}%>
+	<%= render :partial => "shared/more_taxons", :locals => {:taxons => @games_taxons, :style => 'games'}%>	
+</div>
+<script type="text/javascript">
+	new Control.Tabs('feature_tabs');  
+</script>
+<%= javascript_include_tag "/javascripts/merchRuleItemsSlider.js" %>

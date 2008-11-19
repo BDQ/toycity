@@ -1,0 +1,8 @@
+<div class="similar_products">
+	<h1>Similar Products:</h1>
+	<ul>
+		<% similar_products.each do |p| %>
+			<li><%= link_to truncate(p.name, 90, ".."),  product_path(p) %></li>
+		<% end %>
+	</ul>
+</div>

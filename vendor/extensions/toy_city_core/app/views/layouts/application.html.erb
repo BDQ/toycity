@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" lang="en" xml‎ns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Toy City</title>
+    <%= stylesheets %>
+    <%= javascript_include_tag :defaults %>
+    <%= javascript_include_tag "livepipe.js" %>
+    <%= javascript_include_tag "tabs.js" %>
+    <%= javascript_include_tag "toycity.js" %>
+    <%= yield :head %>
+		<link rel="shortcut icon" href="/images/favicon.ico">
+  </head>
+  <body>
+ 		<div id="wrapper">
+	    <div id="page">
+				<div id="header">
+		 			<div id="header_left" class="left">
+						<%= link_to image_tag("toy_city_logo.png", :alt => "ToyCity.ie - Longford - Athlone - Sligo - Galway - Roscommon"), "/", :class => "main_logo" %>
+ 		
+						<div id="cart_count">
+							<p>Items in Cart: </p><span id="cart_count_number"><%= cart_count %></span>
+							<ul>
+								<li>My Wishlist</li>
+								<li>Store Locations</li>
+								<li>Shipping & Delivery</li>
+							</ul>
+		 
+						</div><!-- end id=cart_count -->
+					
+					</div><!-- end id=header_left -->
+					<div id="header_right" class="right">
+					
+						<div id="fast_find">
+					    <label for="fast_find_category_list">Category</label><select name="fast_find_category_list" id="all_brands" onchange="window.location.href='/taxons/' + this.value;" >
+								<option selected>Please Select</option>
+					      <%=  options_from_collection_for_select(
+								 	TaxonChooser::OPTIONS.find{ |tt| tt.type_name == 'Category'}.options,
+			 		        :id, :name ) %>
+					    </select>
+
+					    <label for="fast_find_age_list">Age Range</label><select name="fast_find_age_list" id="all_brands" onchange="window.location.href='/taxons/' + this.value;" >
+								<option selected>Please Select</option>
+					      <%=  options_from_collection_for_select(
+								 	TaxonChooser::OPTIONS.find{ |tt| tt.type_name == 'Age'}.options,
+			 		        :id, :name ) %>
+					    </select>
+		
+					    <label for="fast_find_brand_list">Brand</label><select name="fast_find_brand_list" id="all_brands" onchange="window.location.href='/taxons/' + this.value;" >
+								<option selected>Please Select</option>
+					      <%=  options_from_collection_for_select(
+								 	TaxonChooser::OPTIONS.find{ |tt| tt.type_name == 'Brand'}.options,
+			 		        :id, :name ) %>
+					    </select>
+						</div><!-- end id=fast_find -->
+					
+					</div><!-- end id=header_right -->
+				
+	 			</div><!-- end id=header -->
+			
+				<div id="main">
+					<div id="main_left" class="left">
+				  	<%=@content_for_layout %> 	
+					</div><!-- end id=main_left -->
+				
+					<div id="main_right" class="right">
+		 				<div id="search_box">
+					 		<%= render :partial => 'shared/search_box' %>
+						
+							<img src="/images/boxes/nursery_world.gif" class="right_box" alt="Nursery World" title="Nursery World" />
+							<img src="/images/boxes/gamezone.gif" class="right_box" alt="GameZone" title="GameZone" />
+							<img src="/images/boxes/wish_list.gif" class="right_box" alt="Wish List" title="Wish List" />
+							<img src="/images/boxes/gift_vouchers.gif" class="right_box" alt="Gift Vouchers" title="Gift Vouchers" />
+							
+						</div><!-- end id=search_box -->
+						
+					</div><!-- end id=main_right -->
+				
+				</div><!-- end id=main -->
+
+		 	</div><!-- end id=page -->
+			<div style="clear:both;">&nbsp;</div>
+	 	</div><!-- end id=wrapper -->
+ 
+		<div id="footer">
+			<div id="footer_main">
+				<div class="left">
+					<h3>Customer Service</h3>
+					<div class="indent">
+						<span>Email:</span> <a href="mailto:web@toycity.ie">web@toycity.ie</a><br/>
+						<span>Phone: </span> 043 46114 <br/>
+						<span>Address: </span> Toycity Ltd,<br/>
+						Mastertech Business Park,<br/>
+						Athlone Road,<br/>
+						Longford,<br/>
+						Ireland.
+					</div>
+				</div>
+				
+				<div class="left">
+					<h3>Useful Information</h3>
+					<ul class="indent">
+						<li><%= link_to "Shipping & Returns", '/content/shipping' %></li>
+						<li><%= link_to "Privacy Policy", '/content/privacy' %></li>
+						<li><%= link_to "Terms & Conditions", '/content/tsandcs' %></li>
+					</ul>
+				</div>
+				
+				
+				<div class="copyright">&copy; Copyright <%= Time.new.year %> Toy City  Ltd.</div>
+				
+			</div><!-- end id=footer_main -->
+		</div><!-- end id=footer -->
+  </body>
+</html>

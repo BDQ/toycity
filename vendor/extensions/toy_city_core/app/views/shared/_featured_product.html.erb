@@ -1,0 +1,12 @@
+<div class="featured_product">
+	<%= image_tag featured_product.images.first.public_filename(:product), :class => "featured_product_image", :alt => featured_product.name %>
+	<div class="featured_product_details">
+		<h1><%= featured_product.name %></h1>
+		<p><%= truncate(featured_product.description, 130, "...") %></p>
+		<h2 class="<%= style %>">now only: <%= product_price(featured_product) %></h2>
+    <% form_for :order, :url => orders_url do |f| %>
+			<input type="hidden" name="id" value="<%=featured_product.variants.first.id %>"/>
+			<%= image_submit_tag("/images/buttons/#{style}_add_to_cart.gif") %>
+		<% end %>
+	</div>
+</div>
