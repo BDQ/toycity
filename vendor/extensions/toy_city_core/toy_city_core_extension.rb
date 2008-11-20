@@ -132,6 +132,10 @@ class ToyCityCoreExtension < Spree::Extension
         return image_tag("bullets/#{style}_tab.gif", :style => "padding-left: #{left}px;") + link_to(name.gsub("&nbsp;", ""), taxon_path(taxons[i].id))        
       end
     end
+
+    #Update Image model with custom thumbnail sizes
+    Image.attachment_options[:thumbnails] =  {:small=>"100x100>", :scroller=>"120x125>", :product=>"175x145>", :main=>"345x345>", :mini=>"75x75>"}
+    Image.attachment_options[:max_size] = 50.megabyte
   end
   
   def deactivate
