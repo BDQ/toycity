@@ -172,6 +172,7 @@ p, body, ul, li, h1, h2, h3, form {
 	float:left;
 	color: #333333;
 	margin-left:10px;
+	width:320px;
 }
 .featured_product_details h1{
 	font-size: 14pt;
