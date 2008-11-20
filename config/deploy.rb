@@ -13,7 +13,7 @@ set :scm, "git"
 default_run_options[:pty] = true
 set :scm_passphrase, ""  
 set :user, "deploy"
-
+set :runner, "deploy"
 
 role :app, "10.1.0.29"
 role :web, "10.1.0.29"
