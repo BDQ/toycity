@@ -12,6 +12,6 @@ production:
   adapter: mysql
   database: toycity_production
   username: root
-  password: password
+  password: S3ntr1c!
   host: localhost
   socket: /var/lib/mysql/mysql.sock
