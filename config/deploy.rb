@@ -18,3 +18,16 @@ set :user, "deploy"
 role :app, "10.1.0.29"
 role :web, "10.1.0.29"
 role :db,  "10.1.0.29", :primary => true
+
+#############################################################
+#	Passenger
+#############################################################
+
+namespace :passenger do
+  desc "Restart Application"
+  task :restart do
+    run "touch #{current_path}/tmp/restart.txt"
+  end
+end
+
+after :deploy, "passenger:restart"
