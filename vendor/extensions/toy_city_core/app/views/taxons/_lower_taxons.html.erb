@@ -1,0 +1,34 @@
+<div id="<%= @style %>_tab_header">
+	Choose from our extensive range of Toys below
+</div>
+<div id="<%= @style %>_taxons_top">
+	<%= render :partial => "shared/more_taxons", :locals => {:taxons => @related_taxons, :style => @style}%>
+</div>
+<div id="<%= @style %>_taxons_top_breadcrumbs">
+	<span>You are here: </span><p> Toys > Clothes > Sleppy</p>
+</div>
+<div id="<%= @style %>_listing">
+	<div id="listing_header">
+		<%= render :partial => 'shared/advanced_search_sort_bar' %>
+		<%= render :partial => 'shared/advanced_search_paginate', :locals => {:collection => @products, :style => @style, :options => {}} unless @products.empty? %>
+	</div>
+	<div id="listing_main">
+		<% @products.each do |product| %>
+			<div id="<%= @style %>_listing_detail">
+				<a class="frame" style="background: url(<%=  product.images.first.public_filename(:scroller) if product.images.size > 0 %>) no-repeat center" href="<%= product_url(product) %>">&nbsp;</a>
+ 				<%= link_to truncate(product.name, 18, ".."), product_url(product), {:class => "title", :title => product.name } %>
+		 
+				<p><%= truncate(product.description, 39, "..") %></p>
+				<h3>now</h3><h2><%= product_price(product) %></h2>
+				<% form_for :order, :url => orders_url do |f| %>
+					<input type="hidden" name="id" value="<%=product.variants.first.id %>"/>
+					<%= image_submit_tag("/images/buttons/#{@style}_add_to_cart.gif") %>
+				<% end %>
+				</div>
+		<% end %>
+	</div>	
+	<p class="clearer">&nbsp;</p>
+		<%= render :partial => 'shared/advanced_search_paginate', :locals => {:collection => @products, :style => @style, :options => {}} unless @products.empty? %>
+	<p class="clearer">&nbsp;</p>
+</div>
+<div id="<%= @style %>_listing_footer">&nbsp;</div>

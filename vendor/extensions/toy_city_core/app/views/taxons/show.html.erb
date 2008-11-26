@@ -1,0 +1,6 @@
+<%= render :partial => "shared/top_tabs" %>
+<% if object.parent.root? %>
+	<%= render :partial => "top_level_taxon" %>
+<% else %>
+	<%= render :partial => "lower_taxons" %>
+<% end %>

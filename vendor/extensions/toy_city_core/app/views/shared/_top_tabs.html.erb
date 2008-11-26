@@ -1,0 +1,22 @@
+<ul id="feature_tabs">
+	<li class="tab">
+		<% if @style == "toys" %>
+			<img src="/images/tabs/toys_tab_on.png" alt="Toys" title="Toys"/></li>
+		<% else %>
+			<%= link_to image_tag("tabs/toys_tab_off.png", :alt => @object.name), taxon_path(3322) %>
+		<% end %>
+	<li class="tab">
+		<% if @style == "nursery_world" %>
+			<img src="/images/tabs/nursery_world_tab_on.png" alt="Toys" title="Toys"/></li>
+		<% else %>
+			<%= link_to image_tag("tabs/nursery_world_tab_off.png", :alt => @object.name), taxon_path(3323) %>
+		<% end %>
+	</li>  
+	<li class="tab">
+		<% if @style == "gamezone" %>
+			<img src="/images/tabs/gamezone_tab_on.png" alt="Toys" title="Toys"/></li>
+		<% else %>
+			<%= link_to image_tag("tabs/gamezone_tab_off.png", :alt => @object.name), taxon_path(3324) %>
+		<% end %>
+	</li>  
+</ul>
