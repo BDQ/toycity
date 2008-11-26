@@ -1,12 +1,10 @@
-body{
+body{ 
 	font-family: "Trebuchet MS", "Lucida Grande";
 	font-size: 9pt;
 	background:transparent url(/images/bear_bg.png) repeat scroll left top;
 }
-p, body, ul, li, h1, h2, h3, form {
-	margin:0px 0px;
-	padding:0px 0px;
-}
+p, body, ul, li, h1, h2, h3, form { margin:0px 0px; padding:0px 0px;}
+a img{ 	border:0px; }
 #wrapper{
 	min-height:800px;
 	height:auto !important;
@@ -18,12 +16,7 @@ p, body, ul, li, h1, h2, h3, form {
 	margin:0pt auto;
 	position:relative;
 }
-#header{
-	height:130px;
-}
-#header a img{
-	border: 0px;
-}
+#header{ height:130px; }
 .left{
 	width: 717px;
 	float:left;
@@ -33,9 +26,7 @@ p, body, ul, li, h1, h2, h3, form {
 	width: 234px;
 	float:left;
 }
-.main_logo{
-	float:left;
-}
+.main_logo{ float:left; }
 #cart_count{
 	background:transparent url(/images/cart_items_bg.gif) no-repeat scroll left top;
 	float:right;
@@ -84,7 +75,7 @@ p, body, ul, li, h1, h2, h3, form {
 	width:120px;
 	float:left;
 	border: 1px solid #b3b3b3;
-	color: #b3b3b3;
+	color: #808080;
  	margin:4px 10px;
 	font-size: 9pt;
 }
@@ -98,14 +89,11 @@ p, body, ul, li, h1, h2, h3, form {
 	padding: 4px;
 	float:right;
 	border:1px solid #660000;
-	color: #b3b3b3;
+	color: ##808080;
 	background:white url(/images/textbox_bg.gif) repeat-x scroll left top;
  
 }
-
-#search_box .button{
-	float:right;
-}
+#search_box .button{ float:right; }
 .right_box{
 	margin: 3px 0px;
 }
@@ -172,7 +160,7 @@ p, body, ul, li, h1, h2, h3, form {
 	float:left;
 	color: #333333;
 	margin-left:10px;
-	width:320px;
+	width:295px;
 }
 .featured_product_details h1{
 	font-size: 14pt;
@@ -224,18 +212,18 @@ p, body, ul, li, h1, h2, h3, form {
 	margin:0 3px;
 	padding:10px 0 0;
 }
-#nursery_scroller {
+#nursery_world_scroller {
 	clear:both;
- 	background:url("/images/nursery_scroller_bg.gif") left top no-repeat; 
+ 	background:url("/images/nursery_world_scroller_bg.gif") left top no-repeat; 
 	min-height:200px;
 	height:auto !important;
   height:200px;
  	margin:0 3px;
 	padding:10px 0 0;
 }
-#games_scroller {
+#gamezone_scroller {
 	clear:both;
- 	background:url("/images/games_scroller_bg.gif") left top no-repeat; 
+ 	background:url("/images/gamezone_scroller_bg.gif") left top no-repeat; 
 	min-height:200px;
 	height:auto !important;
   height:200px;
@@ -269,7 +257,7 @@ p, body, ul, li, h1, h2, h3, form {
 	text-decoration:underline;
 }
 #footer_main ul{
-		list-style-type:none; 
+	list-style-type:none; 
 }
 #footer_main span{
 	color: #ffffff;
@@ -351,33 +339,36 @@ p, body, ul, li, h1, h2, h3, form {
 	text-decoration:none;
 }
 #more_in_toys a:hover{
+	color: #ffffff;
 	text-decoration:underline;
 }
-#more_in_nursery{
+#more_in_nursery_world{
 	color: #993399;
 	margin: 0px 0px 0px 25px;
 }
-#more_in_nursery a{
+#more_in_nursery_world a{
 	color: #993399;
 	text-decoration:none;
 }
-#more_in_nursery a:hover{
+#more_in_nursery_world a:hover{
+	color: #ffffff;
 	text-decoration:underline;
 }
-#more_in_games{
+#more_in_gamezone{
 	color: #970000;
 	margin: 0px 0px 0px 25px;
 }
-#more_in_games a{
+#more_in_gamezone a{
 	color: #970000;
 	text-decoration:none;
 }
-#more_in_games a:hover{
+#more_in_gamezone a:hover{
+	color: #ffffff;
 	text-decoration:underline;
 }
 #more_in_taxons_table{
 	width: 100%;
-	margin: 0px 0px 15px 0px;
+	padding:5px;
 }
 #more_in_taxons_table td{
 	width:25%;
@@ -392,4 +383,327 @@ p, body, ul, li, h1, h2, h3, form {
 .more_in_taxon {
 	float:left;
 	width: 25%;
+}
+.product_sorter{
+	float:left;
+}
+.pagination{
+	float: right;
+}
+.pagination ul{
+		list-style-type:none; 
+}
+.pagination ul li{
+	float: left;
+	margin:0 2px;
+	color: #adadad;
+}
+.pagination ul li a{
+	color: #adadad;
+	text-decoration:none;
+}
+.pagination ul li a:hover{
+	text-decoration:underline;
+}
+.pagination ul li img{
+	margin:-2px 4px;
+}
+.product_sorter{
+	color: #adadad;
+	margin: 0px 0px 10px 0px;
+}
+.product_sorter a{
+	color: #adadad;
+}
+#listing_header { }
+#listing_main{
+	clear:both;
+}
+
+#toys_tab_header{
+	background: url("/images/toys_tab_header_bg.png") left top no-repeat; 
+	color: #fff;
+	font-size:12pt;
+	clear:both;
+	height:19px;
+	padding:10px 0 10px 10px;
+}
+#toys_taxons_top{
+	background: #fead6a url("/images/toys_top_taxons_bg.png") left bottom no-repeat; 
+}
+
+#toys_taxons_top a{
+	color: #cc3300;
+	text-decoration:none;
+}
+#toys_taxons_top a:hover{
+	text-decoration:underline;
+}
+#toys_taxons_top_breadcrumbs{
+	min-height:29px;
+	height:auto !important;
+  height:29px;
+	background: url("/images/toys_taxons_top_breadcrumbs_bg.png") left bottom no-repeat; 
+}
+#toys_taxons_top_breadcrumbs span{
+	padding:6px 0 0 10px;
+	color: #ffcc99;
+	float:left;
+}
+#toys_taxons_top_breadcrumbs p{
+	padding:6px 0 0 10px;
+	color: #ffffff;
+	float:left;
+}
+#toys_listing{
+	padding:10px 10px;
+	background-color: #ffffff; 
+}
+#toys_listing .currentpage{
+	color: #fead6a;
+	font-weight:bold;
+}
+#toys_listing .product_sorter a{
+	color: #ffcc99;	
+}
+#toys_listing_detail{
+	width:20%;
+ 	float:left;
+	min-height:290px;
+	height:auto !important;
+  height:290px;
+}
+#toys_listing_detail .frame{
+	border: 1px solid #fead6a;
+ 	width: 130px;
+	min-height:160px;
+	height:auto !important;
+  height:160px;
+	display:block;
+	font-size:0;
+}
+#toys_listing_detail .title{
+	color: #fe5400;
+	font-size: 10pt;
+	text-decoration: underline;
+	font-weight: bold;
+	margin:3px 6px 3px 0;
+}
+#toys_listing_detail p{
+	color: #808080;
+	margin:3px 6px 8px 0;
+}
+#toys_listing_detail h2{
+	float:left;
+	color: #fe5400;
+}
+#toys_listing_detail h3{
+	float:left;
+	color: #fe5400;
+	margin: 2px 6px 0px 0px;
+}
+#toys_listing_detail input{
+	clear:both;
+	margin:12px 0 0;
+}
+#toys_listing_footer{
+	clear:both;
+	background: url("/images/toys_listing_footer.gif") left bottom no-repeat;
+	min-height:31px;
+	height:auto !important;
+  height:31px;
+}
+
+
+#nursery_world_tab_header{
+	background: url("/images/nursery_world_tab_header_bg.png") left top no-repeat; 
+	color: #fff;
+	font-size:12pt;
+	clear:both;
+	height:19px;
+	padding:10px 0 10px 10px;
+}
+#nursery_world_taxons_top{
+	background: #f4d8f4 url("/images/nursery_world_top_taxons_bg.png") left bottom no-repeat; 
+}
+#nursery_world_taxons_top a{
+	color: #9a32b2;
+	text-decoration:none;
+}
+#nursery_world_taxons_top a:hover{
+	text-decoration:underline;
+}
+#nursery_world_taxons_top_breadcrumbs{
+	min-height:29px;
+	height:auto !important;
+  height:29px;
+	background: url("/images/nursery_world_taxons_top_breadcrumbs_bg.png") left bottom no-repeat; 
+}
+#nursery_world_taxons_top_breadcrumbs span{
+	padding:6px 0 0 10px;
+	color: #e7beeb;
+	float:left;
+}
+#nursery_world_taxons_top_breadcrumbs p{
+	padding:6px 0 0 10px;
+	color: #ffffff;
+	float:left;
+}
+#nursery_world_listing{
+	padding:10px 10px;
+	background-color: #ffffff; 
+}
+#nursery_world_listing .currentpage{
+	color: #9A32B2;
+	font-weight:bold;
+}
+#nursery_world_listing .product_sorter a{
+	color: #e7beeb;	
+}
+#nursery_world_listing_detail{
+	width:20%;
+ 	float:left;
+	min-height:290px;
+	height:auto !important;
+  height:290px;
+}
+#nursery_world_listing_detail .frame{
+	border: 1px solid #ecc5ec;
+ 	width: 130px;
+	min-height:160px;
+	height:auto !important;
+  height:160px;
+	display:block;
+	font-size:0;
+}
+#nursery_world_listing_detail .title{
+	color: #9A32B2;
+	font-size: 10pt;
+	text-decoration: underline;
+	font-weight: bold;
+	margin:3px 6px 3px 0;
+}
+#nursery_world_listing_detail p{
+	color: #808080;
+	margin:3px 6px 8px 0;
+}
+#nursery_world_listing_detail h2{
+	float:left;
+	color: #9A32B2;
+}
+#nursery_world_listing_detail h3{
+	float:left;
+	color: #9A32B2;
+	margin: 2px 6px 0px 0px;
+}
+#nursery_world_listing_detail input{
+	clear:both;
+	margin:12px 0 0;
+}
+#nursery_world_listing_footer{
+	clear:both;
+	background: url("/images/nursery_world_listing_footer.gif") left bottom no-repeat;
+	min-height:31px;
+	height:auto !important;
+  height:31px;
+}
+
+
+#gamezone_tab_header{
+	background: url("/images/gamezone_tab_header_bg.png") left top no-repeat; 
+	color: #fff;
+	font-size:12pt;
+	clear:both;
+	height:19px;
+	padding:10px 0 10px 10px;
+}
+#gamezone_taxons_top{
+	background: #f6b6b6 url("/images/gamezone_top_taxons_bg.png") left bottom no-repeat; 
+}
+#gamezone_taxons_top a{
+	color: #970000;
+	text-decoration:none;
+}
+#gamezone_taxons_top a:hover{
+	text-decoration:underline;
+}
+#gamezone_taxons_top_breadcrumbs{
+	min-height:29px;
+	height:auto !important;
+  height:29px;
+	background: url("/images/gamezone_taxons_top_breadcrumbs_bg.png") left bottom no-repeat; 
+}
+#gamezone_taxons_top_breadcrumbs span{
+	padding:6px 0 0 10px;
+	color: #f6b6b6;
+	float:left;
+}
+#gamezone_taxons_top_breadcrumbs p{
+	padding:6px 0 0 10px;
+	color: #ffffff;
+	float:left;
+}
+#gamezone_listing{
+	padding:10px 10px;
+	background-color: #ffffff; 
+}
+#gamezone_listing .currentpage{
+	color: #970000;
+	font-weight:bold;
+}
+#gamezone_listing .product_sorter a{
+	color: #f6b6b6;	
+}
+#gamezone_listing_detail{
+	width:20%;
+ 	float:left;
+	min-height:290px;
+	height:auto !important;
+  height:290px;
+}
+#gamezone_listing_detail .frame{
+	border: 1px solid #f6b6b6;
+ 	width: 130px;
+	min-height:160px;
+	height:auto !important;
+  height:160px;
+	display:block;
+	font-size:0;
+}
+#gamezone_listing_detail .title{
+	color: #970000;
+	font-size: 10pt;
+	text-decoration: underline;
+	font-weight: bold;
+	margin:3px 6px 3px 0;
+}
+#gamezone_listing_detail p{
+	color: #808080;
+	margin:3px 6px 8px 0;
+}
+#gamezone_listing_detail h2{
+	float:left;
+	color: #970000;
+}
+#gamezone_listing_detail h3{
+	float:left;
+	color: #970000;
+	margin: 2px 6px 0px 0px;
+}
+#gamezone_listing_detail input{
+	clear:both;
+	margin:12px 0 0;
+}
+#gamezone_listing_footer{
+	clear:both;
+	background: url("/images/gamezone_listing_footer.gif") left bottom no-repeat;
+	min-height:31px;
+	height:auto !important;
+  height:31px;
+}
+
+.clearer{
+	clear:both;
+	line-height:0px;
+	font-size:0px;
 }

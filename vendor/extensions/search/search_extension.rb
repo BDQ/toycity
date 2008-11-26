@@ -1,7 +1,7 @@
 # Uncomment this if you reference any of your controllers in activate
 require_dependency 'application'
 
-PRODUCTS_PER_PAGE = 4
+PRODUCTS_PER_PAGE = 10
 
 class SearchExtension < Spree::Extension
   version "1.0"
@@ -70,7 +70,7 @@ class SearchExtension < Spree::Extension
           "name_desc" => "name DESC"
         }
         # Set it to what is allowed or default.
-        @sort_by = sort_params[params[:sort]] || "master_price ASC"
+        @sort_by = sort_params[params[:sort]] || "name ASC"
 
         @search_param = "- #{:searching_by.l_with_args({ :search_term => params[:search] })}" if params[:search]
 
@@ -111,7 +111,7 @@ class SearchExtension < Spree::Extension
           "name_desc" => "name DESC"
         }
         # Set it to what is allowed or default.
-        @sort_by = sort_params[params[:sort]] || "master_price ASC"
+        @sort_by = sort_params[params[:sort]] || "name ASC"
 
         @search_param = "- #{:searching_by.l_with_args({ :search_term => params[:search] })}" if params[:search]
 

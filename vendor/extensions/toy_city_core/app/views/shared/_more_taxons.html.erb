@@ -1,16 +1,13 @@
-<div id="more_in_<%= style %>">
-	<%= image_tag "more_in_#{style}.gif" %>
-	<table id="more_in_taxons_table">
-	<% 
-		rows = (taxons.size / 4.0).ceil
-		rows.times do |i| %>
- 		<tr>
-			<td><%= print_taxon_cell(taxons, i, style) %></td>
-			<td><%= print_taxon_cell(taxons, (i + rows), style) %></td>
-			<td><%= print_taxon_cell(taxons, (i + (rows * 2)), style) %></td>
-			<td><%= print_taxon_cell(taxons, (i + (rows * 3)), style) %></td>
-		</tr>
-	<% end %>
-	</table>
+<table id="more_in_taxons_table">
+<% 
+	rows = (taxons.size / 4.0).ceil
+	rows.times do |i| %>
+		<tr>
+		<td><%= print_taxon_cell(taxons, i, style) %></td>
+		<td><%= print_taxon_cell(taxons, (i + rows), style) %></td>
+		<td><%= print_taxon_cell(taxons, (i + (rows * 2)), style) %></td>
+		<td><%= print_taxon_cell(taxons, (i + (rows * 3)), style) %></td>
+	</tr>
+<% end %>
+</table>
 
-</div>

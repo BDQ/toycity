@@ -65,6 +65,7 @@ class ToyCityCoreExtension < Spree::Extension
         Rails.cache.delete('cart_count')
       end
     end
+   
     #add cart_count helps
     Spree::BaseHelper.class_eval do
       def cart_count
@@ -73,29 +74,74 @@ class ToyCityCoreExtension < Spree::Extension
     end
     
     #fetch featured products
-    ProductsController.class_eval do
-      before_filter :fetch_featured, :only => [:index]  
+    TaxonsController.class_eval do
+      before_filter :fetch_featured, :only => [:show]  
       def fetch_featured
-        @featured_toys = Taxon.find_by_name('Featured Toys', :include => :products).products
-        @featured_toy = @featured_toys[rand(@featured_toys.size)]
-        @similar_toys = find_similar_products(@featured_toy, 6)
-         
-        @featured_nurseries = Taxon.find_by_name('Featured Nursery', :include => :products).products
-        @featured_nursery = @featured_nurseries[rand(@featured_nurseries.size)]
-        @similar_nursery = find_similar_products(@featured_nursery, 6)
-        
-        @featured_games = Taxon.find_by_name('Featured Games', :include => :products).products
-        @featured_game = @featured_games[rand(@featured_games.size)]
-        @similar_games = find_similar_products(@featured_game, 6)
-        
+        @style = object.name.downcase.gsub(" ", "_")
+              
+    @style  = "nursery_world"
+    
+        #get related taxons and category taxons
         @category_taxonomy = TaxonChooser::OPTIONS.find{ |tt| tt.type_name == 'Category'}.options
         @toys_taxon = @category_taxonomy.find{ |t| t.name == 'Toys'}
         @nursery_taxon = @category_taxonomy.find{ |t| t.name == 'Nursery World'}
         @games_taxon = @category_taxonomy.find{ |t| t.name == 'GameZone'}
+       
+        if @style == 'toys'
+          @related_taxons = @category_taxonomy[(@category_taxonomy.index(@toys_taxon)+1)..(@category_taxonomy.index(@nursery_taxon)-1)]
+        end
+        if @style == 'nursery_world'
+          @related_taxons = @category_taxonomy[(@category_taxonomy.index(@nursery_taxon)+1)..(@category_taxonomy.index(@games_taxon)-1)]
+        end
+        if @style == 'gamezone'
+          @related_taxons = @category_taxonomy[(@category_taxonomy.index(@games_taxon)+1)..@category_taxonomy.size]
+        end
         
-        @toys_taxons = @category_taxonomy[(@category_taxonomy.index(@toys_taxon)+1)..(@category_taxonomy.index(@nursery_taxon)-1)]
-        @nursery_taxons = @category_taxonomy[(@category_taxonomy.index(@nursery_taxon)+1)..(@category_taxonomy.index(@games_taxon)-1)]
-        @games_taxons = @category_taxonomy[(@category_taxonomy.index(@games_taxon)+1)..@category_taxonomy.size]
+        if object.parent.root?
+          #Top Level Taxons: Toys, Nursery World, GameZone
+          @featured_products_taxon = Taxon.find(3398, :include => :children)
+          @featured_products =  @featured_products_taxon.children.detect{ |t| t.name == object.name }.products
+          @featured_product = @featured_products[rand(@featured_products.size)]
+          @similar_products = find_similar_products(@featured_product, 6)
+        else
+          products_per_page = 10
+
+          search = Search.new({
+            :taxon_id => params[:taxon],
+            :min_price => params[:min_price],
+            :max_price => params[:max_price],
+            :keywords => params[:search]
+          })
+          # Verify if theres any ondition.
+          conditions = search.conditions
+          if conditions == [""]
+            conditions = ""
+          end
+
+          # Define what is allowed.
+          sort_params = {
+            "price_asc" => "master_price ASC",
+            "price_desc" => "master_price DESC",
+            "date_asc" => "available_on ASC",
+            "date_desc" => "available_on DESC",
+            "name_asc" => "name ASC",
+            "name_desc" => "name DESC"
+          }
+          # Set it to what is allowed or default.
+          @sort_by = sort_params[params[:sort]] || "name ASC"
+
+          @search_param = "- #{:searching_by.l_with_args({ :search_term => params[:search] })}" if params[:search]
+
+          @products ||= object.products.available.by_name(params[:search]).find(
+            :all,
+            :conditions => conditions,
+            :order => @sort_by,
+            :page => {:start => 1, :size => products_per_page, :current => params[:p]},
+            :include => :images)
+    
+        end
+        
+ 
       end
       
       def find_similar_products(product, quantity)
@@ -121,8 +167,13 @@ class ToyCityCoreExtension < Spree::Extension
       
     end
 
-    #Add Helper method to display taxons
-    ProductsHelper.class_eval do
+    #Set TaxonsController to use it's own view (instead of products/index)
+    TaxonsController.show.wants.html do 
+        render :template => 'taxons/show.html.erb' 
+    end
+
+    #Add Helper methods to display taxons & get product style
+    ProductsHelper.class_eval do 
       def print_taxon_cell(taxons, i, style)
         return " " if taxons.size <= i
         
@@ -131,11 +182,31 @@ class ToyCityCoreExtension < Spree::Extension
  
         return image_tag("bullets/#{style}_tab.gif", :style => "padding-left: #{left}px;") + link_to(name.gsub("&nbsp;", ""), taxon_path(taxons[i].id))        
       end
+    
+      def get_style(product)
+        top_level_taxons = ["Toys", "Nursery World", "Gamezone"]
+        catogory_taxons = product.taxons.find_all{ |t| t.taxonomy_id == 276849395}
+        
+        catogory_taxons.each do |t|
+          if top_level_taxons.include? t.name
+            return t.name.downcase.gsub(" ", "_")
+          else
+            parent = t.parent
+            until top_level_taxons.include? parent.name 
+              parent = parent.name
+            end
+             
+            return parent.name.downcase.gsub(" ", "_")
+          end
+        end
+        
+      end
     end
 
     #Update Image model with custom thumbnail sizes
     Image.attachment_options[:thumbnails] =  {:small=>"100x100>", :scroller=>"120x125>", :product=>"175x145>", :main=>"345x345>", :mini=>"75x75>"}
     Image.attachment_options[:max_size] = 50.megabyte
+    
   end
   
   def deactivate

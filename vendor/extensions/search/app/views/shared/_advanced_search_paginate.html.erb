@@ -15,10 +15,10 @@
     <% if collection.previous_page? -%>
     <li class="nextpage">
       <% temp.merge!(:p => collection.previous_page) %>
-      <%= link_to "&#171; #{t('previous')}", temp.merge(options) %>
+      <%= link_to image_tag("#{@style}_page_left.png"), temp.merge(options) %>
     </li>
     <% else -%>
-    <li class="disablepage">&#171; <%= t('previous') %></li>
+    <li class="disablepage"><%= image_tag("#{@style}_page_left.png") %></li>
     <% end -%>
     
     <% last_page = 0 -%>
@@ -37,10 +37,10 @@
     <% if collection.next_page? -%>
     <li class="nextpage">
       <% temp.merge!(:p => collection.next_page) %>
-      <%= link_to "#{t('next')} &#187;", temp.merge(options) %>
+      <%= link_to image_tag("#{@style}_page_right.png"), temp.merge(options) %>
     </li>
     <% else -%>
-    <li class="disablepage">&#171; <%= t('next') %></li>
+    <li class="disablepage"><%= image_tag("#{@style}_page_right.png") %></li>
     <% end -%>
   </ul>
 </div>
