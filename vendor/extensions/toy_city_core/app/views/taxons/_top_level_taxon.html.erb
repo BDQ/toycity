@@ -2,9 +2,9 @@
 	<%= render :partial => "shared/featured_product", :locals => {:featured_product => @featured_product, :style => @style}%>
 	<%= render :partial => "shared/similar_products", :locals => {:similar_products => @similar_products}%>
 	<%= render :partial => "shared/scroller", :locals => {:featured_products => @featured_products, :style => @style}%>
-	<div id="more_in_<%= @style %>">
-		<%= image_tag "more_in_#{@style}.gif" %>
-		<%= render :partial => "shared/more_taxons", :locals => {:taxons => @related_taxons, :style => @style}%>
-	</div>
 </div><!-- end id=toys_tab -->
+<div id="more_in_<%= @style %>">
+	<%= image_tag "more_in_#{@style}.gif" %>
+	<%= render :partial => "shared/more_taxons", :locals => {:taxons => @related_taxons, :style => @style}%>
+</div>
 <%= javascript_include_tag "/javascripts/merchRuleItemsSlider.js" %>

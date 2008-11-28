@@ -1,0 +1,10 @@
+<span>You are here: </span>
+
+<% if params[:id].is_a? Array 
+	t = Taxon.find_by_permalink(params[:id].join('/') + '/') 	
+else
+	t = Taxon.find_by_permalink(params[:taxon_path].join('/') + '/')
+end %>
+<%= breadcrumbs(t) %>
+
+ 

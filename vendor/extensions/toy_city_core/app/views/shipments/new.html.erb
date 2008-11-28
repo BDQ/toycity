@@ -1,0 +1,12 @@
+<%= render :partial => "shared/checkout_workflow", :locals =>  {:icon => "ribbon", :text => "Shipping Details"} %>
+<div id="checkout_main">
+	<%=error_messages_for :shipment%>
+	
+	<% form_for(:shipment, :url => order_shipments_url(@order)) do |f| %>
+	  <%= render :partial => 'form', :locals => {:f => f} %>
+	  <div align="right">
+	    <%= submit_tag t('Continue') %>
+	  </div>
+	<% end %>
+</div> 
+<div id="checkout_footer">&nbsp;</div>

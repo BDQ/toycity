@@ -77,10 +77,8 @@ class ToyCityCoreExtension < Spree::Extension
     TaxonsController.class_eval do
       before_filter :fetch_featured, :only => [:show]  
       def fetch_featured
-        @style = object.name.downcase.gsub(" ", "_")
+        @style = params[:id][1].gsub("-", "_")
               
-    @style  = "nursery_world"
-    
         #get related taxons and category taxons
         @category_taxonomy = TaxonChooser::OPTIONS.find{ |tt| tt.type_name == 'Category'}.options
         @toys_taxon = @category_taxonomy.find{ |t| t.name == 'Toys'}
@@ -172,6 +170,31 @@ class ToyCityCoreExtension < Spree::Extension
         render :template => 'taxons/show.html.erb' 
     end
 
+    #set style for Products show
+    ProductsController.class_eval do
+      before_filter :fetch_related, :only => [:show]  
+      
+      def fetch_related
+         @style = params[:taxon_path][1].gsub("-", "_")
+         
+         #get related taxons and category taxons
+         @category_taxonomy = TaxonChooser::OPTIONS.find{ |tt| tt.type_name == 'Category'}.options
+         @toys_taxon = @category_taxonomy.find{ |t| t.name == 'Toys'}
+         @nursery_taxon = @category_taxonomy.find{ |t| t.name == 'Nursery World'}
+         @games_taxon = @category_taxonomy.find{ |t| t.name == 'GameZone'}
+
+         if @style == 'toys'
+           @related_taxons = @category_taxonomy[(@category_taxonomy.index(@toys_taxon)+1)..(@category_taxonomy.index(@nursery_taxon)-1)]
+         end
+         if @style == 'nursery_world'
+           @related_taxons = @category_taxonomy[(@category_taxonomy.index(@nursery_taxon)+1)..(@category_taxonomy.index(@games_taxon)-1)]
+         end
+         if @style == 'gamezone'
+           @related_taxons = @category_taxonomy[(@category_taxonomy.index(@games_taxon)+1)..@category_taxonomy.size]
+         end
+      end
+    end
+
     #Add Helper methods to display taxons & get product style
     ProductsHelper.class_eval do 
       def print_taxon_cell(taxons, i, style)
@@ -180,7 +203,7 @@ class ToyCityCoreExtension < Spree::Extension
         name = taxons[i].name
         left = (name.scan("&nbsp;").size - 4) * 2
  
-        return image_tag("bullets/#{style}_tab.gif", :style => "padding-left: #{left}px;") + link_to(name.gsub("&nbsp;", ""), taxon_path(taxons[i].id))        
+        return image_tag("bullets/#{style}_tab.gif", :style => "padding-left: #{left}px;") + link_to(name.gsub("&nbsp;", ""), seo_url(taxons[i]))        
       end
     
       def get_style(product)
@@ -201,12 +224,43 @@ class ToyCityCoreExtension < Spree::Extension
         end
         
       end
+   
     end
 
     #Update Image model with custom thumbnail sizes
     Image.attachment_options[:thumbnails] =  {:small=>"100x100>", :scroller=>"120x125>", :product=>"175x145>", :main=>"345x345>", :mini=>"75x75>"}
     Image.attachment_options[:max_size] = 50.megabyte
+
+    #Overrider breadcrumbs helper
+    TaxonsHelper.class_eval do
+      def breadcrumbs(taxon)
+        crumbs = "<p>"
+      
+        unless taxon
+          crumbs += link_to t('Home'), seo_url(Taxon.find(3322))
+          return crumbs += "</p>"
+        end
+        
+        taxons = taxon.ancestors.reject {|t| t.name == "Category"}
+        unless taxons.empty?
+          crumbs += taxons.reverse.collect { |ancestor| link_to ancestor.name, seo_url(ancestor) }.join(" > ")
+          crumbs += " > "
+        end
+        crumbs += link_to taxon.name, seo_url(taxon)
+        crumbs += "</p>"
+      end
+    end
     
+    #Add before_validation method to complete required field that
+    #we don't need or want (zipcode and phone)
+    Address.class_eval do
+      before_validation :complete_fields
+      
+      def complete_fields
+        self.zipcode ||= "EIRE"
+        self.phone ||= " "
+      end
+    end
   end
   
   def deactivate

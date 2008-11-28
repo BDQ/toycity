@@ -1,0 +1,35 @@
+<%= render :partial => "shared/top_tabs" %>
+<div id="<%= @style %>_tab_header" class="<%= @style %>_breadcrumbs" style="font-size:9pt;">
+	<%= render :partial => "shared/you_are_here" %>
+</div>
+<div id="<%= @style %>_detail_header">
+	<%= @product.name %>
+</div>
+<div id="<%= @style %>_detail_main">
+	<div class="detail_images">
+	  <div id="<%= @style %>_detail_main_image">
+			<%= render :partial => 'image' -%>
+	  </div>
+	  <div id="product-thumbnails">
+	    <%= render :partial => 'thumbnails', :locals => {:product => @product} -%>
+	  </div>
+	</div>
+	<div class="detail_main">
+		<h1><%= @product.name %></h1>
+		<p><%= @product.description %></p>
+		<p class="detail_main_pricing">
+			<h3>now</h3><h2><%= product_price(@product) %></h2>
+		</p>
+		<% form_for :order, :url => orders_url do |f| %>
+			<input type="hidden" name="id" value="<%= @product.variants.first.id %>"/>
+			<%= image_submit_tag("/images/buttons/#{@style}_add_to_cart.gif") %>
+		<% end %>
+	</div>
+	<p class="clearer">&nbsp;</p>
+</div>
+<div id="<%= @style %>_detail_taxons_header">
+	<%= render :partial => "shared/taxon_text" %>
+</div>
+<div id="<%= @style %>_detail_taxons">
+ 	<%= render :partial => "shared/more_taxons", :locals => {:taxons => @related_taxons, :style => @style}%>
+</div>

@@ -1,0 +1,17 @@
+<table class="cart-summary" width="100% " cellspacing="10">
+  <thead>
+    <th colspan="2">Product Description</th>
+    <th><%= t("Price") %></th>
+    <th align="center"><%= t("Qty") %></th>
+    <th align="right"><%= t("Total") %></th>
+  </thead>
+  <tbody id="line_items">
+		<%= f.render_associated_form(@order.line_items) %>
+		<% if @order.line_items.empty? %>
+			<tr id="none">
+		  	<td colspan="3"><%= t("You cart is empty.")  %></td>
+			</tr>
+		<% end %>
+	</tbody>
+
+</table>

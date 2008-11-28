@@ -1,11 +1,12 @@
 class TaxonChooser
 
   class TaxonOption
-    attr_reader :id, :name
+    attr_reader :id, :name, :permalink
 
-    def initialize(id, name)
+    def initialize(id, name, permalink)
       @id = id
       @name = name
+      @permalink = permalink
     end
   end
   
@@ -28,7 +29,7 @@ class TaxonChooser
     end
 
     def include_taxon_tree(taxonomy, taxon, level)
-      self <<  TaxonOption.new(taxon.id, "&nbsp;" * level * 4 + taxon.name)
+      self <<  TaxonOption.new(taxon.id, "&nbsp;" * level * 4 + taxon.name, taxon.permalink)
       taxon.children.each do |subtaxon|
         include_taxon_tree(taxonomy, subtaxon, level + 1)
       end

@@ -1,0 +1,8 @@
+<!-- no need for thumnails unless there is more then one image -->
+<% if product.images.size > 1 %>
+	<% product.images.each do |i| %>  
+		<%= link_to_remote "<div class='#{@style}_detail_main_thumbnail'  style='background: url(#{i.public_filename(:mini)}) no-repeat center'>&nbsp;</div>",
+	                   :url =>  change_image_product_path(product, :image_id => i) ,
+	                   :update => @style + '_detail_main_image' %>
+	<% end %>
+<% end %>
