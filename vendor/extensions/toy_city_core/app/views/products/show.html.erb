@@ -15,6 +15,7 @@
 	  </div>
 	</div>
 	<div class="detail_main">
+		<p class="brand_logo <%= @style %>"><%= get_brand(@product) %></p>
 		<p><%= @product.description %></p>
 		<p class="detail_main_pricing">
 			<h3>now</h3><h2><%= product_price(@product, :show_vat_text => false) %></h2>

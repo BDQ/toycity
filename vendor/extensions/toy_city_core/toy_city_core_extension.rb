@@ -5,7 +5,46 @@ class ToyCityCoreExtension < Spree::Extension
   version "1.0"
   description "Toy City Core"
   url "http://www.toycity.ie"
- 
+  
+  module TaxonMethods  
+
+    def get_style_from_path(params)
+      case params[1]
+
+      when "toys", "nursery-world", "gamezone"
+        @style = params[1]
+        @top_level = true if params.size == 2
+
+      when "age", "brand"
+
+        @style = "toys"
+      else
+
+        @style = session[:style] ? session[:style] : "toys"
+      end
+
+      session[:style] = @style
+    end
+    
+    def get_related_taxons
+      #get related taxons and category taxons
+      @category_taxonomy = TaxonChooser::OPTIONS.find{ |tt| tt.type_name == 'Category'}.options
+      @toys_taxon = @category_taxonomy.find{ |t| t.name == 'Toys'}
+      @nursery_taxon = @category_taxonomy.find{ |t| t.name == 'Nursery World'}
+      @games_taxon = @category_taxonomy.find{ |t| t.name == 'GameZone'}
+     
+      if @style == 'toys'
+        @related_taxons = @category_taxonomy[(@category_taxonomy.index(@toys_taxon)+1)..(@category_taxonomy.index(@nursery_taxon)-1)]
+      end
+      if @style == 'nursery-world'
+        @related_taxons = @category_taxonomy[(@category_taxonomy.index(@nursery_taxon)+1)..(@category_taxonomy.index(@games_taxon)-1)]
+      end
+      if @style == 'gamezone'
+        @related_taxons = @category_taxonomy[(@category_taxonomy.index(@games_taxon)+1)..@category_taxonomy.size]
+      end
+    end
+  end
+  
   def activate
     CreditcardTxn.class_eval do
       serialize :gateway_response, ActiveMerchant::Billing::Response
@@ -75,39 +114,15 @@ class ToyCityCoreExtension < Spree::Extension
     
     #fetch featured products
     TaxonsController.class_eval do
-    
+      include TaxonMethods
+      
       def show
         @taxon = Taxon.find_by_permalink(params[:id].join("/") + "/")
 
-        case params[:id][1]
-          when "toys", "nursery-world", "gamezone"
-            @style = params[:id][1]
-            @top_level = true if params[:id].size == 2
-            
-          when "age", "brand"
-            @style = "toys"
-          else
-            @style = session[:style] ? session[:style] : "toys"
-        end
-        session[:style] = @style
-   
-        logger.debug("+++++++++++++++++++ #{session[:style]} +++++++++++++")
-        
-        #get related taxons and category taxons
-        @category_taxonomy = TaxonChooser::OPTIONS.find{ |tt| tt.type_name == 'Category'}.options
-        @toys_taxon = @category_taxonomy.find{ |t| t.name == 'Toys'}
-        @nursery_taxon = @category_taxonomy.find{ |t| t.name == 'Nursery World'}
-        @games_taxon = @category_taxonomy.find{ |t| t.name == 'GameZone'}
-       
-        if @style == 'toys'
-          @related_taxons = @category_taxonomy[(@category_taxonomy.index(@toys_taxon)+1)..(@category_taxonomy.index(@nursery_taxon)-1)]
-        end
-        if @style == 'nursery-world'
-          @related_taxons = @category_taxonomy[(@category_taxonomy.index(@nursery_taxon)+1)..(@category_taxonomy.index(@games_taxon)-1)]
-        end
-        if @style == 'gamezone'
-          @related_taxons = @category_taxonomy[(@category_taxonomy.index(@games_taxon)+1)..@category_taxonomy.size]
-        end
+        get_style_from_path(params[:id])
+    
+        get_related_taxons()
+
              
         # Define sorting options
         sort_params = {
@@ -202,26 +217,12 @@ class ToyCityCoreExtension < Spree::Extension
     ProductsController.class_eval do
       before_filter :fetch_related, :only => [:show]  
       helper :orders
-      
+      include TaxonMethods
+       
       def fetch_related
+        get_style_from_path(params[:taxon_path])
         
-        @style = params[:taxon_path][1].gsub("-", "_")
-         
-        #get related taxons and category taxons
-        @category_taxonomy = TaxonChooser::OPTIONS.find{ |tt| tt.type_name == 'Category'}.options
-        @toys_taxon = @category_taxonomy.find{ |t| t.name == 'Toys'}
-        @nursery_taxon = @category_taxonomy.find{ |t| t.name == 'Nursery World'}
-        @games_taxon = @category_taxonomy.find{ |t| t.name == 'GameZone'}
-
-        if @style == 'toys'
-          @related_taxons = @category_taxonomy[(@category_taxonomy.index(@toys_taxon)+1)..(@category_taxonomy.index(@nursery_taxon)-1)]
-        end
-        if @style == 'nursery_world'
-          @related_taxons = @category_taxonomy[(@category_taxonomy.index(@nursery_taxon)+1)..(@category_taxonomy.index(@games_taxon)-1)]
-        end
-        if @style == 'gamezone'
-          @related_taxons = @category_taxonomy[(@category_taxonomy.index(@games_taxon)+1)..@category_taxonomy.size]
-        end
+        get_related_taxons()
       end
     end
 
@@ -255,7 +256,18 @@ class ToyCityCoreExtension < Spree::Extension
         end
         
       end
-   
+         
+      def get_brand(product)
+          brand = product.taxons.to_a.find {|t| t.taxonomy_id == 276849399}
+          return "" if brand.nil?
+          
+          if FileTest.exists? "public/images/brands/#{brand.name.downcase.gsub(" ", "_")}.jpg"
+            
+            return link_to image_tag("brands/#{brand.name.downcase.gsub(" ", "_")}.jpg", :alt => brand.name), "/t/#{brand.permalink}"
+          else
+            return "Brand: " + link_to(brand.name, "/t/#{brand.permalink}")
+          end
+      end
     end
     
     OrdersHelper.class_eval do

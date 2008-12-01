@@ -129,6 +129,10 @@ a img{ 	border:0px; }
 .toys {
 	color: #fe5100;
 }
+.toys a {
+	color: #fe5100;
+}
+
 #nursery-world_tab{
 	background:#f4d8f4 url(/images/tabs/nursery-world_tab_bg.png) no-repeat scroll left top;
 	width:717px;
@@ -136,11 +140,17 @@ a img{ 	border:0px; }
 .nursery-world{
 	color: #b75fc8;
 }
+.nursery-world a{
+	color: #b75fc8;
+}
 #gamezone_tab{
 	background:#f6b6b6 url(/images/tabs/gamezone_tab_bg.png) no-repeat scroll left top;
 	width:717px;
 }
 .gameszone{
+	color: #980000;
+}
+.gameszone a{
 	color: #980000;
 }
 .tab-content{
@@ -1120,4 +1130,15 @@ a img{ 	border:0px; }
 .errorExplanation ul{
 	margin:0 0 15px;
  
+}
+.brand_logo{
+	font-size:12pt;
+	margin: 0px 0px 15px 0px;
+}
+.brand_logo a{
+	padding:0 0 3px;
+	text-decoration:none;
+}
+.brand_logo a:hover{
+	text-decoration:underline;
 }
