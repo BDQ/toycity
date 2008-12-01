@@ -1,7 +1,7 @@
 # Uncomment this if you reference any of your controllers in activate
 require_dependency 'application'
 
-PRODUCTS_PER_PAGE = 10
+PRODUCTS_PER_PAGE = 15
 
 class SearchExtension < Spree::Extension
   version "1.0"

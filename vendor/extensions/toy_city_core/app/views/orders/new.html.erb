@@ -1,0 +1,9 @@
+<%= render :partial => "shared/checkout_workflow", :locals =>  {:icon => "cart", :text => "Shopping Cart"} %>
+<div id="checkout_main">
+	<% form_for(:order, :url => object_url, :html => { :method => :put}) do |f| %>
+	  <%= render :partial => 'form', :locals => {:f => f} %>
+	<% end %>
+	<br/>
+	<p style="text-align:center;"><%=link_to t("<-- Continue Shopping"), root_path %></p>
+</div>
+<div id="checkout_footer">&nbsp;</div>

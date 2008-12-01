@@ -1,0 +1,41 @@
+<table class="order-summary" style="width:100%;">
+  <thead>
+    <th><%= t('Item Description') %></th>
+    <th align="center">Price (exc. VAT)</th>
+    <th align="center"><%= t('Qty') %></th>
+    <th align="right"><%= t('Total') %></th>
+  </thead>
+  <% @order.line_items.each do |item| %>
+  <tr >
+    <td width="300"><%=item.variant.product.name-%> <%= "(" + variant_options(item.variant) + ")" unless item.variant .option_values.empty? %></td>
+    <td width="150"  align="center" valign="top"><%= number_to_currency item.price -%></td>
+    <td width="100"  align="center" valign="top"><%=item.quantity-%></td>
+    <td width="100" valign="top" align="right"><%= number_to_currency (item.price * item.quantity)-%></td>
+  </tr>
+  <% end %>      
+  <tr id="subtotal-row" valign="bottom">
+    <td colspan="3" align="right"><b><%= t('Subtotal') %>:</b></td>
+    <td align="right"><%= number_to_currency @order.item_total -%></td>
+  </tr>
+  <tr id="VAT-row">
+    <td colspan="3" align="right"><b>VAT:</b></td>
+    <td align="right"><%= number_to_currency @order.tax_amount -%></td>
+  </tr>
+  <tr id="shipping-row">
+    <td colspan="3" align="right"><b>Shipping:</b></td>
+    <td align="right">
+    	<% if @shipping_methods.size > 0 then %>
+				<%= number_to_currency(@shipping_methods.first.calculate_shipping(@order)) %>
+				<%= hidden_field_tag "method_id",  @shipping_methods.first.id %>
+			<% else %>
+				<%= number_to_currency(0) %>
+			<% end %>
+    </td>
+  </tr>
+  <tr id="total-row">
+    <td colspan="3" align="right"><b><%= t('Order Total') %>:</b></td>
+    <td id="order_total_cell" align="right"><%= number_to_currency(@order.total + @default_method.calculate_shipping(@order))%></td>
+  </tr>
+</table>
+
+

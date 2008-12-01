@@ -5,18 +5,13 @@
 
 		<div id="subtotal">
 			<h3><%= "#{t("Subtotal")}: #{order_price(@order)}" %></h3><br />
+		</div>
+		<div id="cart_options">
 		  <%= image_submit_tag 'buttons/update_cart.gif' %><span> or </span><%= link_to image_tag('buttons/checkout.gif') , checkout_order_url(@order) %>  
 		</div>
 
-		<p><%=link_to t("Continue Shopping"), products_path %></p>
-  
-		<% unless @order.line_items.empty? %>
-		  <p id="clear_cart_link">
-		    <small>
-		      <%= link_to t("Empty Cart"), object_url, :method => :delete  %>
-		    </small>
-		  </p>
-		<% end %>
+		<p style="text-align:center;"><%=link_to t("<-- Continue Shopping"), root_path %></p>
+ 
 	<% end %>
 </div>
 <div id="checkout_footer">&nbsp;</div>

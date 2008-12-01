@@ -18,7 +18,7 @@ class AppConfiguration < Configuration
   preference :store_cc, :boolean, :default => false
   preference :default_locale, :string, :default => 'en-US'
   preference :allow_locale_switching, :boolean, :default => false
-  preference :default_country_id, :integer, :default => 214
+  preference :default_country_id, :integer, :default => 96
   preference :allow_backorders, :boolean, :default => true
   preference :show_descendents, :boolean, :default => true
   preference :show_zero_stock_products, :boolean, :default => true

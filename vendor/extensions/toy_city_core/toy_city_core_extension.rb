@@ -75,10 +75,24 @@ class ToyCityCoreExtension < Spree::Extension
     
     #fetch featured products
     TaxonsController.class_eval do
-      before_filter :fetch_featured, :only => [:show]  
-      def fetch_featured
-        @style = params[:id][1].gsub("-", "_")
-              
+    
+      def show
+        @taxon = Taxon.find_by_permalink(params[:id].join("/") + "/")
+
+        case params[:id][1]
+          when "toys", "nursery-world", "gamezone"
+            @style = params[:id][1]
+            @top_level = true if params[:id].size == 2
+            
+          when "age", "brand"
+            @style = "toys"
+          else
+            @style = session[:style] ? session[:style] : "toys"
+        end
+        session[:style] = @style
+   
+        logger.debug("+++++++++++++++++++ #{session[:style]} +++++++++++++")
+        
         #get related taxons and category taxons
         @category_taxonomy = TaxonChooser::OPTIONS.find{ |tt| tt.type_name == 'Category'}.options
         @toys_taxon = @category_taxonomy.find{ |t| t.name == 'Toys'}
@@ -88,58 +102,67 @@ class ToyCityCoreExtension < Spree::Extension
         if @style == 'toys'
           @related_taxons = @category_taxonomy[(@category_taxonomy.index(@toys_taxon)+1)..(@category_taxonomy.index(@nursery_taxon)-1)]
         end
-        if @style == 'nursery_world'
+        if @style == 'nursery-world'
           @related_taxons = @category_taxonomy[(@category_taxonomy.index(@nursery_taxon)+1)..(@category_taxonomy.index(@games_taxon)-1)]
         end
         if @style == 'gamezone'
           @related_taxons = @category_taxonomy[(@category_taxonomy.index(@games_taxon)+1)..@category_taxonomy.size]
         end
+             
+        # Define sorting options
+        sort_params = {
+          "price_asc" => "master_price ASC",
+          "price_desc" => "master_price DESC",
+          "date_asc" => "available_on ASC",
+          "date_desc" => "available_on DESC",
+          "name_asc" => "name ASC",
+          "name_desc" => "name DESC"
+        }
+        # Set default sorting
+        @sort_by = sort_params[params[:sort]] || "name ASC"      
         
-        if object.parent.root?
+        if @top_level
           #Top Level Taxons: Toys, Nursery World, GameZone
           @featured_products_taxon = Taxon.find(3398, :include => :children)
           @featured_products =  @featured_products_taxon.children.detect{ |t| t.name == object.name }.products
           @featured_product = @featured_products[rand(@featured_products.size)]
           @similar_products = find_similar_products(@featured_product, 6)
-        else
-          products_per_page = 10
+        
+          products_per_page = PRODUCTS_PER_PAGE
+          
+          if params.has_key? "search"
+            search = Search.new({
+              :min_price => params[:min_price],
+              :max_price => params[:max_price],
+              :keywords => params[:search]
+            })
+            
+            # Verify if theres any ondition.
+            conditions = search.conditions
+            if conditions == [""]
+              conditions = ""
+            end
+            
+            @search_param = "- #{:searching_by.l_with_args({ :search_term => params[:search] })}" 
 
-          search = Search.new({
-            :taxon_id => params[:taxon],
-            :min_price => params[:min_price],
-            :max_price => params[:max_price],
-            :keywords => params[:search]
-          })
-          # Verify if theres any ondition.
-          conditions = search.conditions
-          if conditions == [""]
-            conditions = ""
+            @products = Product.available.by_name(params[:search]).find(
+              :all,
+              :conditions => conditions,
+              :order => @sort_by,
+              :page => {:start => 1, :size => products_per_page, :current => params[:p]},
+              :include => :images)
           end
-
-          # Define what is allowed.
-          sort_params = {
-            "price_asc" => "master_price ASC",
-            "price_desc" => "master_price DESC",
-            "date_asc" => "available_on ASC",
-            "date_desc" => "available_on DESC",
-            "name_asc" => "name ASC",
-            "name_desc" => "name DESC"
-          }
-          # Set it to what is allowed or default.
-          @sort_by = sort_params[params[:sort]] || "name ASC"
-
-          @search_param = "- #{:searching_by.l_with_args({ :search_term => params[:search] })}" if params[:search]
-
-          @products ||= object.products.available.by_name(params[:search]).find(
+        
+        else
+          @products = object.products.available.by_name(params[:search]).find(
             :all,
             :conditions => conditions,
             :order => @sort_by,
             :page => {:start => 1, :size => products_per_page, :current => params[:p]},
-            :include => :images)
-    
+            :include => :images)  
+  
         end
         
- 
       end
       
       def find_similar_products(product, quantity)
@@ -163,6 +186,11 @@ class ToyCityCoreExtension < Spree::Extension
         
       end
       
+      
+      def load_data
+        
+      end
+      
     end
 
     #Set TaxonsController to use it's own view (instead of products/index)
@@ -173,27 +201,30 @@ class ToyCityCoreExtension < Spree::Extension
     #set style for Products show
     ProductsController.class_eval do
       before_filter :fetch_related, :only => [:show]  
+      helper :orders
       
       def fetch_related
-         @style = params[:taxon_path][1].gsub("-", "_")
+        
+        @style = params[:taxon_path][1].gsub("-", "_")
          
-         #get related taxons and category taxons
-         @category_taxonomy = TaxonChooser::OPTIONS.find{ |tt| tt.type_name == 'Category'}.options
-         @toys_taxon = @category_taxonomy.find{ |t| t.name == 'Toys'}
-         @nursery_taxon = @category_taxonomy.find{ |t| t.name == 'Nursery World'}
-         @games_taxon = @category_taxonomy.find{ |t| t.name == 'GameZone'}
+        #get related taxons and category taxons
+        @category_taxonomy = TaxonChooser::OPTIONS.find{ |tt| tt.type_name == 'Category'}.options
+        @toys_taxon = @category_taxonomy.find{ |t| t.name == 'Toys'}
+        @nursery_taxon = @category_taxonomy.find{ |t| t.name == 'Nursery World'}
+        @games_taxon = @category_taxonomy.find{ |t| t.name == 'GameZone'}
 
-         if @style == 'toys'
-           @related_taxons = @category_taxonomy[(@category_taxonomy.index(@toys_taxon)+1)..(@category_taxonomy.index(@nursery_taxon)-1)]
-         end
-         if @style == 'nursery_world'
-           @related_taxons = @category_taxonomy[(@category_taxonomy.index(@nursery_taxon)+1)..(@category_taxonomy.index(@games_taxon)-1)]
-         end
-         if @style == 'gamezone'
-           @related_taxons = @category_taxonomy[(@category_taxonomy.index(@games_taxon)+1)..@category_taxonomy.size]
-         end
+        if @style == 'toys'
+          @related_taxons = @category_taxonomy[(@category_taxonomy.index(@toys_taxon)+1)..(@category_taxonomy.index(@nursery_taxon)-1)]
+        end
+        if @style == 'nursery_world'
+          @related_taxons = @category_taxonomy[(@category_taxonomy.index(@nursery_taxon)+1)..(@category_taxonomy.index(@games_taxon)-1)]
+        end
+        if @style == 'gamezone'
+          @related_taxons = @category_taxonomy[(@category_taxonomy.index(@games_taxon)+1)..@category_taxonomy.size]
+        end
       end
     end
+
 
     #Add Helper methods to display taxons & get product style
     ProductsHelper.class_eval do 
@@ -225,6 +256,27 @@ class ToyCityCoreExtension < Spree::Extension
         
       end
    
+    end
+    
+    OrdersHelper.class_eval do
+      def get_top_taxon(product)
+        top_level_taxons = ["Toys", "Nursery World", "Gamezone"]
+        catogory_taxons = product.taxons.find_all{ |t| t.taxonomy_id == 276849395}
+        
+        catogory_taxons.each do |t|
+          if top_level_taxons.include? t.name
+            return t
+          else
+            parent = t.parent
+            until top_level_taxons.include? parent.name 
+              parent = parent.name
+            end
+             
+            return parent
+          end
+        end
+        
+      end
     end
 
     #Update Image model with custom thumbnail sizes
@@ -258,9 +310,16 @@ class ToyCityCoreExtension < Spree::Extension
       
       def complete_fields
         self.zipcode ||= "EIRE"
-        self.phone ||= " "
+        self.phone = "N/A" if self.phone.empty? 
       end
     end
+    
+    #Add hoptoad exception handling
+    ApplicationController.class_eval do
+      include HoptoadNotifier::Catcher
+    end
+    
+    
   end
   
   def deactivate

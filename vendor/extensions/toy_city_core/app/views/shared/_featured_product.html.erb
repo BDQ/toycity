@@ -7,7 +7,7 @@
 			<h1><%= featured_product.name %></h1>
 		</a>
 		<p><%= truncate(featured_product.description, 130, "...") %></p>
-		<h2 class="<%= style %>">now only: <%= product_price(featured_product) %></h2>
+		<h2 class="<%= style %>">now only: <%= product_price(featured_product, :show_vat_text => false) %></h2>
     <% form_for :order, :url => orders_url do |f| %>
 			<input type="hidden" name="id" value="<%=featured_product.variants.first.id %>"/>
 			<%= image_submit_tag("/images/buttons/#{style}_add_to_cart.gif") %>

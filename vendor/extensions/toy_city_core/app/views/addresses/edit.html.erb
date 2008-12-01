@@ -1,8 +1,8 @@
 <%= render :partial => "shared/checkout_workflow", :locals =>  {:icon => "closed_white", :text => "Shipping Address"} %>
 <div id="checkout_main">
 	<%=error_messages_for :address, :header_message => "Sorry, but this address is invalid.", :message => "Please review the error messages below: "%>
-	<% form_for(:address, :url => order_address_url(@order)) do |f| %>
-	  <%= render :partial => 'form', :locals => {:f => f} %>
+	<% form_for(:address, :url => object_url, :html => { :method => :put }) do |f| %>
+	  <%= render :partial => "form", :locals => { :f => f } %>
 	  <div align="right">
 	  	<%= image_submit_tag "buttons/continue.gif" %>
 	  </div>

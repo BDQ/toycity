@@ -1,6 +1,10 @@
 <%= render :partial => "shared/top_tabs" %>
-<% if object.parent.root? %>
-	<%= render :partial => "top_level_taxon" %>
+<% if @top_level %>
+	<% if params.has_key? "search" %>
+		<%= render :partial => "lower_taxons" %>
+	<% else %>
+		<%= render :partial => "top_level_taxon" %>
+	<% end %>
 <% else %>
 	<%= render :partial => "lower_taxons" %>
 <% end %>

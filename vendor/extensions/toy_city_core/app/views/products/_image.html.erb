@@ -1,1 +1,1 @@
-<div class="detail_main_image"  style="background: url(<%= image ? image.public_filename(:main) : @product.images.first.public_filename(:main)  %>) no-repeat center">&nbsp;</div>
+<div class="detail_main_image"  style="background: url(<%= image ? image.public_filename(:main) : (@product.images.first.public_filename(:main) if @product.images.size > 0)  %>) no-repeat center">&nbsp;</div>

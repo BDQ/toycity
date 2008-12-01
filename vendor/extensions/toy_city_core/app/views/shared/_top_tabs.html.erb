@@ -1,7 +1,7 @@
 <ul id="feature_tabs">
 	<li class="tab">
 		<% if @style == "toys" %>
-			<% if @taxon.name.downcase == "toys" && controller.controller_name == "taxons" %>
+			<% if controller.controller_name == "taxons" && @taxon.name.downcase == "toys" %>
 				<img src="/images/tabs/toys_tab_on.png" alt="Toys" title="Toys"/></li>
 			<% else %>
 				<%= link_to image_tag("tabs/toys_tab_on.png", :alt => "Toys"), seo_url(@toys_taxon) %>
@@ -10,19 +10,19 @@
 			<%= link_to image_tag("tabs/toys_tab_off.png", :alt => "Toys"), seo_url(@toys_taxon) %>
 		<% end %>
 	<li class="tab">
-		<% if @style == "nursery_world" %>
-			<% if @taxon.name.downcase == "nursery world"  && controller.controller_name == "taxons" %>
-				<img src="/images/tabs/nursery_world_tab_on.png" alt="Nursery World" title="Nursery World"/></li>
+		<% if @style == "nursery-world" %>
+			<% if controller.controller_name == "taxons" && @taxon.name.downcase == "nursery world" %>
+				<img src="/images/tabs/nursery-world_tab_on.png" alt="Nursery World" title="Nursery World"/></li>
 			<% else %>
-				<%= link_to image_tag("tabs/nursery_world_tab_on.png", :alt => "Nursery World"), seo_url(@nursery_taxon) %>
+				<%= link_to image_tag("tabs/nursery-world_tab_on.png", :alt => "Nursery World"), seo_url(@nursery_taxon) %>
 			<% end %>	
 		<% else %>
-			<%= link_to image_tag("tabs/nursery_world_tab_off.png", :alt => "Nursery World"), seo_url(@nursery_taxon) %>
+			<%= link_to image_tag("tabs/nursery-world_tab_off.png", :alt => "Nursery World"), seo_url(@nursery_taxon) %>
 		<% end %>
 	</li>  
 	<li class="tab">
 		<% if @style == "gamezone" %>
-			<% if @taxon.name.downcase == "nursery world" && controller.controller_name == "taxons" %>
+			<% if controller.controller_name == "taxons" && @taxon.name.downcase == "nursery world" %>
 				<img src="/images/tabs/gamezone_tab_on.png" alt="GameZone" title="GameZone"/></li>
 			<% else %>
 				<%= link_to image_tag("tabs/gamezone_tab_on.png", :alt => "GameZone"), seo_url(@games_taxon) %>

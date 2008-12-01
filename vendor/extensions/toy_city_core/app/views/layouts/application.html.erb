@@ -16,11 +16,12 @@
 						<%= link_to image_tag("toy_city_logo.png", :alt => "ToyCity.ie - Longford - Athlone - Sligo - Galway - Roscommon"), "/", :class => "main_logo" %>
  		
 						<div id="cart_count">
-							<p>Items in Cart: </p><span id="cart_count_number"><%= cart_count %></span>
+							<a href="<%= cart_link %>">
+								<p>Items in Cart: </p><span id="cart_count_number"><%= cart_count %></span>
+							</a>
 							<ul>
-								<li>My Wishlist</li>
-								<li>Store Locations</li>
-								<li>Shipping & Delivery</li>
+								<li><%= link_to "View Shopping Cart", cart_link %></li>
+								<li><%= link_to "Shipping & Returns", '/content/shipping' %></li>
 							</ul>
 		 
 						</div><!-- end id=cart_count -->
@@ -29,25 +30,25 @@
 					<div id="header_right" class="right">
 					
 						<div id="fast_find">
-					    <label for="fast_find_category_list">Category</label><select name="fast_find_category_list" id="all_brands" onchange="window.location.href='/taxons/' + this.value;" >
+					    <label for="fast_find_category_list">Category</label><select name="fast_find_category_list" id="all_brands" onchange="window.location.href='/t/' + this.value;" >
 								<option selected>Please Select</option>
 					      <%=  options_from_collection_for_select(
 								 	TaxonChooser::OPTIONS.find{ |tt| tt.type_name == 'Category'}.options,
-			 		        :id, :name ) %>
+			 		        :permalink, :name ) %>
 					    </select>
 
-					    <label for="fast_find_age_list">Age Range</label><select name="fast_find_age_list" id="all_brands" onchange="window.location.href='/taxons/' + this.value;" >
+					    <label for="fast_find_age_list">Age Range</label><select name="fast_find_age_list" id="all_brands" onchange="window.location.href='/t/' + this.value;" >
 								<option selected>Please Select</option>
 					      <%=  options_from_collection_for_select(
 								 	TaxonChooser::OPTIONS.find{ |tt| tt.type_name == 'Age'}.options,
-			 		        :id, :name ) %>
+			 		        :permalink, :name ) %>
 					    </select>
 		
-					    <label for="fast_find_brand_list">Brand</label><select name="fast_find_brand_list" id="all_brands" onchange="window.location.href='/taxons/' + this.value;" >
+					    <label for="fast_find_brand_list">Brand</label><select name="fast_find_brand_list" id="all_brands" onchange="window.location.href='/t/' + this.value;" >
 								<option selected>Please Select</option>
 					      <%=  options_from_collection_for_select(
 								 	TaxonChooser::OPTIONS.find{ |tt| tt.type_name == 'Brand'}.options,
-			 		        :id, :name ) %>
+			 		        :permalink, :name ) %>
 					    </select>
 						</div><!-- end id=fast_find -->
 					

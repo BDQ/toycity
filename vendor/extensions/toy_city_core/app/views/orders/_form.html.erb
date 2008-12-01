@@ -9,7 +9,7 @@
 		<%= f.render_associated_form(@order.line_items) %>
 		<% if @order.line_items.empty? %>
 			<tr id="none">
-		  	<td colspan="3"><%= t("You cart is empty.")  %></td>
+		  	<td colspan="3" valign="top" style="font-size:10pt;"><%= t("You cart is empty.")  %></td>
 			</tr>
 		<% end %>
 	</tbody>
