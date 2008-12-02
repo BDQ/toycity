@@ -12,7 +12,7 @@
 				      <% if Spree::Config[:show_zero_stock_products] || product.has_stock? %>
 				       	<div class="productCell" onclick="window.location.href='<%= seo_url(@taxon, product) %>';">
 									<div class="productCellImage" style="background: url(<%= product.images.first.public_filename(:small) %>) no-repeat center">&nbsp;</div>
-				          	<%= link_to product.name, product %>
+				          	<%= link_to product.name, seo_url(@taxon, product) %>
 				          <div class="productCellPrice"><%= product_price(product, :show_vat_text => false) %></div>
 				        </div>
 				      <% end %>
