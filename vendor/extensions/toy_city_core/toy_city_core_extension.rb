@@ -333,7 +333,7 @@ class ToyCityCoreExtension < Spree::Extension
     
     #Add hoptoad exception handling
     ApplicationController.class_eval do
-   
+      include HoptoadNotifier::Catcher
     end
       
   end
