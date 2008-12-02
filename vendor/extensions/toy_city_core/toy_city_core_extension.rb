@@ -141,6 +141,7 @@ class ToyCityCoreExtension < Spree::Extension
           @featured_products_taxon = Taxon.find(3398, :include => :children)
           @featured_products =  @featured_products_taxon.children.detect{ |t| t.name == object.name }.products
           @featured_product = @featured_products[rand(@featured_products.size)]
+          @featured_products.to_a.delete(@featured_product)
           @similar_products = find_similar_products(@featured_product, 6)
         
           products_per_page = PRODUCTS_PER_PAGE
