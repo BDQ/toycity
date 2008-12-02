@@ -1,8 +1,11 @@
 <table class="order-summary">
 	<thead>
 	  <tr>
-	    <th colspan="4" id="order-num"><%= t('Order') %> # <%=@order.number%></th>
+	    <th colspan="4" id="order-num">Your order number is: <%=@order.number%></th>
 	  </tr>
+		<tr>
+			<td>&nbsp;</td>
+		</tr>
 	  <tr>
 	    <th width="200"><%= t('Item Description') %></th>
 	    <th width="100"><%= t('Price') %></th>
@@ -24,7 +27,7 @@
 	    <td valign="bottom" align="right"><%= number_to_currency @order.item_total -%></td>
 	  </tr>
 	  <tr>
-	    <td colspan="3" align="right"><b><%= t('Tax') %>:</b></td>
+	    <td colspan="3" align="right"><b>VAT:</b></td>
 	    <td align="right"><%= number_to_currency @order.tax_amount -%></td>
 	  </tr>
 	  <tr>
