@@ -231,7 +231,6 @@ class ToyCityCoreExtension < Spree::Extension
          redirect_to root_path
     end
 
-
     #Add Helper methods to display taxons & get product style
     ProductsHelper.class_eval do 
       def print_taxon_cell(taxons, i, style)
@@ -268,13 +267,14 @@ class ToyCityCoreExtension < Spree::Extension
           
           if FileTest.exists? "public/images/brands/#{brand.name.downcase.gsub(" ", "_")}.jpg"
             
-            return link_to image_tag("brands/#{brand.name.downcase.gsub(" ", "_")}.jpg", :alt => brand.name), "/t/#{brand.permalink}"
+            return link_to(image_tag("brands/#{brand.name.downcase.gsub(" ", "_")}.jpg", :alt => brand.name), "/t/#{brand.permalink}")
           else
             return "Brand: " + link_to(brand.name, "/t/#{brand.permalink}")
           end
       end
     end
     
+    #Helper to get top level taxon for product
     OrdersHelper.class_eval do
       def get_top_taxon(product)
         top_level_taxons = ["Toys", "Nursery World", "Gamezone"]
@@ -333,10 +333,9 @@ class ToyCityCoreExtension < Spree::Extension
     
     #Add hoptoad exception handling
     ApplicationController.class_eval do
-      include HoptoadNotifier::Catcher
+   
     end
-    
-    
+      
   end
   
   def deactivate
