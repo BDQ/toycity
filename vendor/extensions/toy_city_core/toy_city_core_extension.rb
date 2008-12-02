@@ -99,7 +99,7 @@ class ToyCityCoreExtension < Spree::Extension
     
     # expire cart_count when some adds to cart
     OrdersController.class_eval do
-      before_filter :expire_cart_count, :only => [:edit]  
+      before_filter :expire_cart_count, :only => [:edit, :checkout]  
       def expire_cart_count
         Rails.cache.delete('cart_count')
       end
@@ -200,8 +200,7 @@ class ToyCityCoreExtension < Spree::Extension
         end
         
       end
-      
-      
+         
       def load_data
         
       end
@@ -224,6 +223,11 @@ class ToyCityCoreExtension < Spree::Extension
         
         get_related_taxons()
       end
+    end
+    
+    #redirct index method to root_path
+    ProductsController.index.wants.html do
+         redirect_to root_path
     end
 
 

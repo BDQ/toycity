@@ -1100,27 +1100,21 @@ a img{ 	border:0px; }
 .order-summary #subtotal-row b{
 	color:#FE5100;
 }
+.order-summary b{
+	color:#fe5100;
+}
 .order-summary #VAT-row{
 	font-size:10pt;
 }
-.order-summary #VAT-row b{
-	color:#FE5100;
-}
+
 .order-summary #shipping-row{
 	font-size:10pt;
-}
-.order-summary #shipping-row b{
-	color:#FE5100;
 }
 .order-summary #total-row{
 	font-size:10pt;
 		height:60px;
 		font-size: 10pt;
 }
-.order-summary #total-row b{
-	color:#FE5100;
-}
- 
 .errorExplanation{
 	text-align: center;
 }

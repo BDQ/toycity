@@ -1,6 +1,6 @@
 <%= render :partial => "shared/checkout_workflow", :locals =>  {:icon => "closed_brown", :text => "Order Confirmation"} %>
 <div id="checkout_main">
-	<%= link_to Globalite.localize(:back_to_store), products_path %>
+	<%= link_to Globalite.localize(:back_to_store), root_path %>
 	<br/><br/>
 	<h1><%= Globalite.localize(:order_processed_successfully) %></h1>
 	<br/>
@@ -10,6 +10,6 @@
 	<%= render :partial => 'shared/order_details', :locals => {:order => @order} -%>
 
 	<br/>
-	<%= link_to Globalite.localize(:back_to_store), products_path %>
+	<%= link_to Globalite.localize(:back_to_store), root_path %>
 </div> 
 <div id="checkout_footer">&nbsp;</div>

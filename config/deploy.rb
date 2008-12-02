@@ -33,4 +33,12 @@ namespace :deploy do
     desc "#{t} task is a no-op with passenger"
     task t, :roles => :app do ; end
   end
+  
+  desc "Symlink shared configs and folders on each release."
+  task :symlink_shared do
+    run "ln -nfs #{shared_path}/assets/products #{release_path}/public/images/products"
+  end
+  
 end
+
+after 'deploy:update_code', 'deploy:symlink_shared'
