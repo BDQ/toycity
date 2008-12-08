@@ -15,7 +15,7 @@
 	<div id="listing_main">
 		<% @products.each do |product| %>
 			<div id="<%= @style %>_listing_detail">
-				<a class="frame" style="background: url(<%=  product.images.first.public_filename(:scroller) if product.images.size > 0 %>) no-repeat center" href="<%= seo_url(@taxon, product) %>">&nbsp;</a>
+				<a class="frame" style="background: url(<%=  product.images.first.attachment.url(:scroller) if product.images.size > 0 %>) no-repeat center" href="<%= seo_url(@taxon, product) %>">&nbsp;</a>
  				<%= link_to truncate(product.name, 18, ".."), seo_url(@taxon, product), {:class => "title", :title => product.name } %>
 		 
 				<p><%= truncate(product.description, 39, "..") %></p>

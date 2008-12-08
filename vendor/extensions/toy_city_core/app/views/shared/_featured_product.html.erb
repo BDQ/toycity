@@ -1,6 +1,6 @@
 <div class="featured_product">
 	<a href="<%= seo_url(@taxon, featured_product) %>">
-		<%= image_tag featured_product.images.first.public_filename(:product), :class => "featured_product_image", :alt => featured_product.name %>
+		<%= image_tag featured_product.images.first.attachment.url(:product), :class => "featured_product_image", :alt => featured_product.name %>
 	</a>
 	<div class="featured_product_details">
 		<a href="<%= seo_url(@taxon, featured_product) %>">

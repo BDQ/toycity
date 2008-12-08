@@ -13,7 +13,8 @@ class AdditionalPaperclipRefactor < ActiveRecord::Migration
     # move legacy images to the new directory structure
     puts "Copying legacy assets ..."
     Image.all.each do |image|
-      sizes = %w{mini original product small}
+      #sizes = %w{mini original product small}
+      sizes = %w{mini original product small scroller main}
       sizes.each do |size| 
         target_dir = "#{RAILS_ROOT}/public/assets/products/#{image.id}/#{size}" 
         FileUtils.mkdir_p target_dir

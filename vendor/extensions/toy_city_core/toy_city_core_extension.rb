@@ -296,9 +296,8 @@ class ToyCityCoreExtension < Spree::Extension
       end
     end
 
-    #Update Image model with custom thumbnail sizes
-    Image.attachment_options[:thumbnails] =  {:small=>"100x100>", :scroller=>"120x125>", :product=>"175x145>", :main=>"345x345>", :mini=>"75x75>"}
-    Image.attachment_options[:max_size] = 50.megabyte
+    #Update Image model with custom thumbnail sizes (updated for PaperClip)
+    Image.attachment_definitions[:attachment][:styles] = {:small=>"100x100>", :scroller=>"120x125>", :product=>"175x145>", :main=>"345x345>", :mini=>"75x75>"}
 
     #Overrider breadcrumbs helper
     TaxonsHelper.class_eval do
