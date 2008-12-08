@@ -23,7 +23,7 @@ class Admin::ProductsController < Admin::BaseController
 
     def set_image
       return unless params[:image]
-      return if params[:image][:uploaded_data].blank?    
+      return if params[:image][:attachment].blank?    
       image = Image.create params[:image] if params[:image]
       object.images << image
     end
@@ -47,5 +47,6 @@ class Admin::ProductsController < Admin::BaseController
       end
       @object.variant.sku = params[:product] ? params[:product][:sku] : ""
       @object
-    end    
+    end   
+  
 end
